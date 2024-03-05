@@ -1,88 +1,135 @@
-﻿using Student;
+﻿// See https://aka.ms/new-console-template for more information
+using ConsoleApp1;
 
-namespace Execution {
-    //Viết chương trình quản lý sinh viên có các chức năng sau:
-    //Hiện danh sách sinh viên
-    //Thêm sinh viên
-    //Xóa sinh viên
-    //Sửa thông tin sinh viên
-    //Thông tin sinh viên bao gồm, mã sinh viên, tên, ngày sinh, lớp học
-
-    class Program
+class Program
+{
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        UserManager userManager = new UserManager();
+        UserInterface menu = new UserInterface(userManager);
+
+        menu.MainMenu();
+        while (true)
         {
-            UserInterface.mainMenu();
-            StudentManager studentManager = new StudentManager();
-
-            StudentData studentData = new StudentData();
-            studentData.code = "SV1";
-            studentData.name = "test";
-            studentData.dob = "01/01/2011";
-            studentData.currentClass = "GU";
-
-            studentManager.InsertStudent(studentData);
-
-            while (true)
+            int inputButton = Convert.ToInt32(Console.ReadLine());
+            if (inputButton == 1)
             {
-                int inputOption = Convert.ToInt32(Console.ReadLine());
-                if (inputOption == 1)
-                {
-                    UserInterface.listStudent(studentManager.getListStudent());
-                } else if (inputOption == 2)
-                {
-                    studentData = new StudentData();
-                    UserInterface.addStudent(studentData);
-                    studentManager.InsertStudent(studentData);
-                    Console.WriteLine("Them thanh cong");
+                Console.WriteLine("Nhap ten dang nhap");
+                string username = Console.ReadLine();
 
-                    Thread.Sleep(2000);
-                    UserInterface.mainMenu();
+                Console.WriteLine("Nhap mat khau");
+                string password = Console.ReadLine();
+                menu.DangNhap(username, password);
+
+                Console.WriteLine("Chon 1 hoac 2 de ");
+                Console.WriteLine("A. Them thong tin ");
+                Console.WriteLine("B. Xem thong tin");
+
+                while (true)
+                {
+                    string subInputButton = Console.ReadLine();
+
+                    if (subInputButton == "A")
+                    {
+                        menu.AddInfoMenu();
+                    }
+                    else if (subInputButton == "B")
+                    {
+                        menu.SeeInfo();
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
-            }
-        }
-    }
 
-    class UserInterface
-    {
-        public static void mainMenu()
-        {
-            Console.Clear();
-            Console.WriteLine("Chuong trinh quan ly sinh vien");
-            Console.WriteLine("1. Hien danh sach sinh vien");
-            Console.WriteLine("2. Them sinh vien");
-            Console.WriteLine("3. Sua thong tin sinh vien");
-            Console.WriteLine("4. Xoa sinh vien");
-            Console.WriteLine("5. Thoat chuong trinh");
-        }
-        // \n xuống dòng
-        // \t tương tự với khi ấn tab, tạo 1 khoảng trắng giữa các ký tự
-        public static void listStudent(List<StudentData> students)
-        {
-            Console.WriteLine("MSSV\t|\tTen\t|\tDoB\t\t|\tClass");
-            for (int i = 0; i < students.Count; i++)
+
+            }
+            else if (inputButton == 2)
             {
-                Console.Write(students[i].code);
-                Console.Write("\t|\t");
-                Console.Write(students[i].name);
-                Console.Write("\t|\t");
-                Console.Write(students[i].dob);
-                Console.Write("\t|\t");
-                Console.Write(students[i].currentClass);
-                Console.WriteLine();
-            }
-        }
+                Console.WriteLine("Ban da dang xuat");
+                menu.DangXuat();
 
-        public static void addStudent(StudentData studentData)
-        {
-            Console.WriteLine("Vui long nhap ma sinh vien");
-            studentData.code = Console.ReadLine();
-            Console.WriteLine("Vui long nhap ten sinh vien");
-            studentData.name = Console.ReadLine();
-            Console.WriteLine("Vui long nhap ngay sinh sinh vien");
-            studentData.dob = Console.ReadLine();
-            Console.WriteLine("Vui long nhap lop dang hoc");
-            studentData.currentClass = Console.ReadLine();
+            }
+            else if (inputButton == 3)
+            {
+                Console.WriteLine("Nhap ten dang ky");
+                string username = Console.ReadLine();
+
+                Console.WriteLine("Nhap mat khau dang ky:");
+                string password = Console.ReadLine();
+
+                menu.DangKy(username, password);
+            }
+            else if (inputButton == 4)
+            {
+                Console.WriteLine("Thoat ung dung");
+                break;
+            }
+
+            else
+            {
+                Console.WriteLine("Khong hop le vui long chon lai");
+            }
+
         }
     }
+}
+
+class UserInterface
+{
+    private UserManager userManager;
+    public string username;
+    public string password;
+
+    public UserInterface(UserManager userManager)
+    {
+        this.userManager = userManager;
+    }
+
+    public void MainMenu()
+    {
+        Console.Clear();
+        Console.WriteLine("1. Dang nhap");
+        Console.WriteLine("2. Dang xuat");
+        Console.WriteLine("3. Dang ky");
+        Console.WriteLine("4. Thoat");
+
+    }
+
+    public void DangKy(string username, string password)
+    {
+        userManager.DangKy(username, password);
+    }
+
+    public bool DangNhap(string username, string password)
+    {
+        return userManager.DangNhap(username, password);
+    }
+
+    public void DangXuat()
+    {
+        userManager.Dangxuat();
+    }
+    public void AddInfoMenu()
+    {
+        if (userManager.DangNhap(username, password))
+        {
+            Console.WriteLine("Nhap ten hoc sinh");
+            string studentName = Console.ReadLine();
+            Console.WriteLine("Nhap ngay thang nam sinh");
+            string dob = Console.ReadLine();
+            Console.WriteLine("Nhap diem");
+            string score = Console.ReadLine();
+
+            userManager.AddInfo(studentName, dob, score);
+        }
+
+
+    }
+    public void SeeInfo()
+    {
+        userManager.SeeInfo();
+    }
+
 }
