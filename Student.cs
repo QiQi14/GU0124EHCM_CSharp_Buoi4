@@ -4,39 +4,66 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Student {
-    public class StudentData {
-        public string code { get; set; }
-        public string name { get; set; }
-        public string dob { get; set; }
-        public string currentClass { get; set; }
-    }
+namespace Execution
+{
+    public class Student
+    {
+        public Student() { }
+        public Student(string code, string name, string birthday, string classname)
+        {
+            this.code = code;
+            this.name = name;
+            this.birthday = birthday;
+            this.classname = classname;
+        }
 
-    //class DongVat
-    //function dongVat
+        public string code { set; get; }
+        public string name { set; get; }
+        public string birthday { set; get; }
+        public string classname { set; get; }
+
+        public override string? ToString()
+        {
+            return code + " " + name + " " + birthday + " " + classname;
+        }
+    }
 
     public class StudentManager
     {
-        List<StudentData> students = new List<StudentData>();
+        List<Student> students = new List<Student>();
 
-        public List<StudentData> getListStudent()
+        public List<Student> getListStudents()
         {
             return students;
         }
 
-        public void InsertStudent(StudentData student)
+        public void InsertStudent(Student student)
         {
             students.Add(student);
         }
 
-        public void RemoveStudentByIndex(int index)
+        public void UpdateStudent(Student student, int id)
         {
-            students.RemoveAt(index);
+            students[id] = student;
         }
 
-        public void EditStudent(StudentData newData, int studentIndex)
+        public void DeleteStudent(int id)
         {
-            students[studentIndex] = newData;
+            if (students[id] != null)
+            {
+                students.RemoveAt(id);
+            }
+
         }
+
+        /*        public void PrintStudent()
+                {
+                    students.ForEach(student =>
+                    {
+                        Console.WriteLine(student);
+                    });
+
+
+                }*/
     }
 }
