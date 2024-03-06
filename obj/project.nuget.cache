@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "ghCwkxpqjzMhhtKh8F9LqfBn9p+ngvwmjyVAb4HzE+iR54c05/+UlJ9K2IOzs8gNWHS+qFqR2UYofsL0E+D2tQ==",
+  "dgSpecHash": "tFbtuDSpQdYhYzZ+vZmTG0L6zVRl2oJe/9JHTovEu6mALyuWT93PwUwNAh6ArC/v+i8ZqnHKrIE+MPRP59WkUw==",
   "success": true,
-  "projectFilePath": "D:\\ITPlus\\GU0124E\\CSharp_Buoi4\\CSharp_Buoi4.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "F:\\Study\\GU0124EHCM_CSharp_Buoi4\\CSharp_Buoi4.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\NgocHung\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.15\\microsoft.windowsdesktop.app.ref.7.0.15.nupkg.sha512",
+    "C:\\Users\\NgocHung\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.15\\microsoft.netcore.app.ref.7.0.15.nupkg.sha512",
+    "C:\\Users\\NgocHung\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.15\\microsoft.aspnetcore.app.ref.7.0.15.nupkg.sha512",
+    "C:\\Users\\NgocHung\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.15\\microsoft.netcore.app.host.win-x64.7.0.15.nupkg.sha512"
+  ],
   "logs": []
 }
