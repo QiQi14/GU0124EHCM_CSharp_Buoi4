@@ -38,5 +38,17 @@ namespace Student {
         {
             students[studentIndex] = newData;
         }
+
+        public int FindStudent(string studentCode)
+        {
+            for (int i = 0; i < students.Count; i++)
+            {
+                if (students[i].code == studentCode)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Student;
+using User;
 
 namespace Execution {
     //Viết chương trình quản lý sinh viên có các chức năng sau:
@@ -10,12 +11,15 @@ namespace Execution {
 
     class Program
     {
+        static StudentManager studentManager = new StudentManager();
+        static StudentData studentData = new StudentData();
+
+        static UserManager userManager = new UserManager();
+
         static void Main(string[] args)
         {
             UserInterface.mainMenu();
-            StudentManager studentManager = new StudentManager();
-
-            StudentData studentData = new StudentData();
+            
             studentData.code = "SV1";
             studentData.name = "test";
             studentData.dob = "01/01/2011";
@@ -26,19 +30,103 @@ namespace Execution {
             while (true)
             {
                 int inputOption = Convert.ToInt32(Console.ReadLine());
-                if (inputOption == 1)
+                authentication(inputOption);
+            }
+        }
+
+        public static void authentication(int inputOption)
+        {
+            if (inputOption == 1)
+            {
+                UserData userData = new UserData();
+                UserInterface.inputUserData(userData);
+                int result = userManager.Login(userData);
+
+                if (result == 1)
                 {
-                    UserInterface.listStudent(studentManager.getListStudent());
-                } else if (inputOption == 2)
+                    Console.WriteLine("Dang nhap thanh cong");
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    onboarding(-1);
+                } else
+                {
+                    Console.WriteLine("Dang nhap that bai");
+                    Thread.Sleep(1000);
+                    Console.Clear();
+
+                    UserInterface.mainMenu();
+                }
+            } else if (inputOption == 2)
+            {
+                UserData userData = new UserData();
+                UserInterface.inputUserData(userData);
+
+
+                userManager.Register(userData);
+                Console.WriteLine("Dang ky thanh cong");
+            }
+        }
+
+        public static void onboarding(int inputOption)
+        {
+            Console.WriteLine("debug" + inputOption);
+            if (inputOption == 1)
+            {
+                UserInterface.listStudent(studentManager.getListStudent());
+            }
+            else if (inputOption == 2)
+            {
+                studentData = new StudentData();
+                UserInterface.addStudent(studentData);
+                studentManager.InsertStudent(studentData);
+                Console.WriteLine("Them thanh cong");
+
+                Thread.Sleep(2000);
+                UserInterface.mainMenu();
+            }
+            if (inputOption == 3)
+            {
+                string studentCode = UserInterface.findStudent(true);
+                int index = studentManager.FindStudent(studentCode);
+
+                if (index == -1)
+                {
+                    Console.WriteLine("Khong co sinh vien nao co ma sinh vien la " + studentCode);
+                }
+                else
                 {
                     studentData = new StudentData();
                     UserInterface.addStudent(studentData);
-                    studentManager.InsertStudent(studentData);
-                    Console.WriteLine("Them thanh cong");
-
-                    Thread.Sleep(2000);
-                    UserInterface.mainMenu();
+                    studentManager.EditStudent(studentData, index);
+                    Console.WriteLine("Sua thanh cong");
                 }
+
+            }
+            else if (inputOption == 4)
+            {
+                string studentCode = UserInterface.findStudent(false);
+                int index = studentManager.FindStudent(studentCode);
+
+                if (index == -1)
+                {
+                    Console.WriteLine("Khong co sinh vien nao co ma sinh vien la " + studentCode);
+                }
+                else
+                {
+                    studentManager.RemoveStudentByIndex(index);
+                    Console.WriteLine("Xoa thanh cong");
+                }
+            }
+            else if (inputOption == -1)
+            {
+                UserInterface.onboarding();
+            }
+            else if (inputOption == 5)
+            {
+                return;
+            } else
+            {
+                Console.WriteLine("Khong co chuc nang nay");
             }
         }
     }
@@ -46,6 +134,22 @@ namespace Execution {
     class UserInterface
     {
         public static void mainMenu()
+        {
+            Console.WriteLine("Chuong trinh quan ly sinh vien");
+            Console.WriteLine("1. Dang nhap");
+            Console.WriteLine("2. Dang ky");
+            Console.WriteLine("3. Thoat");
+        }
+
+        public static void inputUserData(UserData user)
+        {
+            Console.WriteLine("Nhap username: ");
+            user.username = Console.ReadLine();
+            Console.WriteLine("Nhap password: ");
+            user.password = Console.ReadLine();
+        }
+
+        public static void onboarding()
         {
             Console.Clear();
             Console.WriteLine("Chuong trinh quan ly sinh vien");
@@ -83,6 +187,13 @@ namespace Execution {
             studentData.dob = Console.ReadLine();
             Console.WriteLine("Vui long nhap lop dang hoc");
             studentData.currentClass = Console.ReadLine();
+        }
+
+        public static string findStudent(bool isEdit)
+        {
+            Console.WriteLine("Vui long nhap ma sinh vien can " + (isEdit ? "sua:" : "xoa:"));
+
+            return Console.ReadLine();
         }
     }
 }
